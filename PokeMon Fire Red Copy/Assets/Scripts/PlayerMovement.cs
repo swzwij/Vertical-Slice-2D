@@ -30,37 +30,19 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if(!_isMoving)
+        CheckWallCollision();
+
+        if (_canMoveDown) print("Object below");
+        if (_canMoveLeft) print("Object left");
+        if (_canMoveRight) print("Object right");
+        if (_canMoveUp) print("Object up");
+
+        if (!_isMoving)
         {
             _input.x = Input.GetAxisRaw("Horizontal");
             _input.y = Input.GetAxisRaw("Vertical");
 
             if (_input.x != 0) _input.y = 0;
-
-            if (_objectAbove)
-            {
-                _canMoveUp = false;
-            }
-            else _canMoveUp = true;
-
-            if (_objectUnder)
-            {
-                _canMoveDown = false;
-            }
-            else _canMoveDown = true;
-
-            if (_objectRight)
-            {
-                _canMoveRight = false;
-            }
-            else _canMoveRight = true;
-
-            if (_objectLeft)
-            {
-                _canMoveLeft = false;
-            }
-            else _canMoveLeft = true;
-            
 
             if (_input != Vector2.zero)
             {
@@ -68,19 +50,16 @@ public class PlayerMovement : MonoBehaviour
                 targetPos.x += _input.x;
                 targetPos.y += _input.y;
 
-
-
+                if (_input.x == -1 && _canMoveLeft) _input.x = 0;
+                if (_input.x == 1 && _canMoveRight) _input.x = 0;
+                if (_input.y == 1 && _canMoveUp) _input.y = 0;
+                if (_input.y == -1 && _canMoveDown) _input.y = 0;
 
                 StartCoroutine(Move(targetPos));
             }
         }
 
 
-    }
-
-    private void FixedUpdate()
-    {
-        CheckWallCollision();
     }
 
     IEnumerator Move(Vector3 targetPos)
@@ -99,17 +78,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckWallCollision()
     {
-        _objectUnder = Physics2D.Raycast(transform.position + _groundRaycastOffset, Vector2.down, _groundRaycastLength, _wallLayer) ||
+        _canMoveDown = Physics2D.Raycast(transform.position + _groundRaycastOffset, Vector2.down, _groundRaycastLength, _wallLayer) ||
                        Physics2D.Raycast(transform.position - _groundRaycastOffset, Vector2.down, _groundRaycastLength, _wallLayer);
 
-        _objectLeft = Physics2D.Raycast(transform.position + _groundRaycastOffset, Vector2.left, _groundRaycastLength, _wallLayer) ||
+        _canMoveLeft = Physics2D.Raycast(transform.position + _groundRaycastOffset, Vector2.left, _groundRaycastLength, _wallLayer) ||
                        Physics2D.Raycast(transform.position - _groundRaycastOffset, Vector2.left, _groundRaycastLength, _wallLayer);
 
-        _objectRight = Physics2D.Raycast(transform.position + _groundRaycastOffset, Vector2.right, _groundRaycastLength, _wallLayer) ||
-                       Physics2D.Raycast(transform.position - _groundRaycastOffset, Vector2.right, _groundRaycastLength, _wallLayer);
+        _canMoveRight = Physics2D.Raycast(transform.position + _groundRaycastOffset, Vector2.right, _groundRaycastLength, _wallLayer) ||
+                        Physics2D.Raycast(transform.position - _groundRaycastOffset, Vector2.right, _groundRaycastLength, _wallLayer);
 
-        _objectAbove = Physics2D.Raycast(transform.position + _groundRaycastOffset, Vector2.up, _groundRaycastLength, _wallLayer) ||
-                       Physics2D.Raycast(transform.position - _groundRaycastOffset, Vector2.up, _groundRaycastLength, _wallLayer);
+        _canMoveUp = Physics2D.Raycast(transform.position + _groundRaycastOffset, Vector2.up, _groundRaycastLength, _wallLayer) ||
+                     Physics2D.Raycast(transform.position - _groundRaycastOffset, Vector2.up, _groundRaycastLength, _wallLayer);
     }
 
     private void OnDrawGizmos()
