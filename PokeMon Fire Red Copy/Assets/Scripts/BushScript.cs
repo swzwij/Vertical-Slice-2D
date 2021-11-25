@@ -15,8 +15,8 @@ public class BushScript : MonoBehaviour
     private void Start()
     {
 
-        _bush1.SetActive(false);
-        _bush2.SetActive(true);
+        _bush2.SetActive(false);
+        _bush1.SetActive(true);
         //_Leave1.SetActive(false);
         //_Leave2.SetActive(false);
     }
