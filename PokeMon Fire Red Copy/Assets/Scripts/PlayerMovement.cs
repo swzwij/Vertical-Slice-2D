@@ -16,26 +16,20 @@ public class PlayerMovement : MonoBehaviour
     [Header("Layers")]
     [SerializeField] private LayerMask _wallLayer;
 
-    [Header("Object Collision")]
-    [SerializeField] private bool _objectUnder;
-    [SerializeField] private bool _objectLeft;
-    [SerializeField] private bool _objectRight;
-    [SerializeField] private bool _objectAbove;
-
     [Header("Can Move Vars")]
     [SerializeField] private bool _canMoveDown;
     [SerializeField] private bool _canMoveLeft;
     [SerializeField] private bool _canMoveRight;
     [SerializeField] private bool _canMoveUp;
 
+    // x -1 = left
+    //x 1 = right
+    //y -1 = down
+    //y 1 = up
+
     private void Update()
     {
         CheckWallCollision();
-
-        if (_canMoveDown) print("Object below");
-        if (_canMoveLeft) print("Object left");
-        if (_canMoveRight) print("Object right");
-        if (_canMoveUp) print("Object up");
 
         if (!_isMoving)
         {
@@ -47,19 +41,19 @@ public class PlayerMovement : MonoBehaviour
             if (_input != Vector2.zero)
             {
                 var targetPos = transform.position;
-                targetPos.x += _input.x;
-                targetPos.y += _input.y;
 
-                if (_input.x == -1 && _canMoveLeft) _input.x = 0;
+                if(_input.x == -1 && _canMoveLeft) _input.x = 0;
+                else targetPos.x += _input.x;
+
                 if (_input.x == 1 && _canMoveRight) _input.x = 0;
-                if (_input.y == 1 && _canMoveUp) _input.y = 0;
-                if (_input.y == -1 && _canMoveDown) _input.y = 0;
+                else targetPos.x += _input.x;
+
+                
+                targetPos.y += _input.y;
 
                 StartCoroutine(Move(targetPos));
             }
         }
-
-
     }
 
     IEnumerator Move(Vector3 targetPos)
