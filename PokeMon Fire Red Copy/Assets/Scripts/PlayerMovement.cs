@@ -42,14 +42,11 @@ public class PlayerMovement : MonoBehaviour
             {
                 var targetPos = transform.position;
 
-                if(_input.x == -1 && _canMoveLeft) _input.x = 0;
+                if(_input.x == -1 && _canMoveLeft || _input.x == 1 && _canMoveRight) _input.x = 0;
                 else targetPos.x += _input.x;
 
-                if (_input.x == 1 && _canMoveRight) _input.x = 0;
-                else targetPos.x += _input.x;
-
-                
-                targetPos.y += _input.y;
+                if (_input.y == -1 && _canMoveDown || _input.y == 1 && _canMoveUp) _input.y = 0;
+                else targetPos.y += _input.y;
 
                 StartCoroutine(Move(targetPos));
             }
