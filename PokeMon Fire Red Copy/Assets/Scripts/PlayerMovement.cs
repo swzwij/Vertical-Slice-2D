@@ -22,6 +22,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool _canMoveRight;
     [SerializeField] private bool _canMoveUp;
 
+    [Header("Facing direction")]
+    [SerializeField] private bool _isFacingDown;
+    [SerializeField] private bool _isFacingLeft;
+    [SerializeField] private bool _isFacingRight;
+    [SerializeField] private bool _isFacingUp;
+
     // x -1 = left
     //x 1 = right
     //y -1 = down
@@ -47,6 +53,18 @@ public class PlayerMovement : MonoBehaviour
 
                 if (_input.y == -1 && _canMoveDown || _input.y == 1 && _canMoveUp) _input.y = 0;
                 else targetPos.y += _input.y;
+
+                if (_input.x == 1) _isFacingRight = true;
+                else _isFacingRight = false;
+
+                if (_input.x == -1) _isFacingLeft = true;
+                else _isFacingLeft = false;
+
+                if (_input.y == 1) _isFacingUp = true;
+                else _isFacingUp = false;
+
+                if (_input.y == -1) _isFacingDown = true;
+                else _isFacingDown = false;
 
                 StartCoroutine(Move(targetPos));
             }
