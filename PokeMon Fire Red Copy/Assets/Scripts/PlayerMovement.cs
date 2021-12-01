@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,11 +22,21 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool _canMoveLeft;
     [SerializeField] private bool _canMoveRight;
     [SerializeField] private bool _canMoveUp;
+    
+    private static Vector3? _position;
 
     // x -1 = left
     //x 1 = right
     //y -1 = down
     //y 1 = up
+
+    private void Awake()
+    {
+        // Als de static position nog geen value heeft kunnen we het negeren.
+        if (!_position.HasValue) return;
+
+        transform.position = (Vector3) _position;
+    }
 
     private void Update()
     {
@@ -63,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
             yield return null;
         }
         transform.position = targetPos;
+        _position = transform.position;
 
         _isMoving = false;
     }
