@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
         CheckWallCollision();
 
         if (!_isMoving)
-        {
+        { 
             _input.x = Input.GetAxisRaw("Horizontal");
             _input.y = Input.GetAxisRaw("Vertical");
 
@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 var targetPos = transform.position;
 
-                if(_input.x == -1 && _canMoveLeft || _input.x == 1 && _canMoveRight) _input.x = 0;
+                if (_input.x == -1 && _canMoveLeft || _input.x == 1 && _canMoveRight) _input.x = 0;
                 else targetPos.x += _input.x;
 
                 if (_input.y == -1 && _canMoveDown || _input.y == 1 && _canMoveUp) _input.y = 0;
@@ -75,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _isMoving = true;
 
-        while((targetPos - transform.position).sqrMagnitude > Mathf.Epsilon)
+        while ((targetPos - transform.position).sqrMagnitude > Mathf.Epsilon)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPos, _moveSpeed * Time.deltaTime);
             yield return null;
