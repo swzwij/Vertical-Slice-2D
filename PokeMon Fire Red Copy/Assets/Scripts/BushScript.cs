@@ -24,11 +24,6 @@ public class BushScript : MonoBehaviour
         _leaves2.SetActive(false);
     }
 
-    private void Update()
-    {
-        
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
