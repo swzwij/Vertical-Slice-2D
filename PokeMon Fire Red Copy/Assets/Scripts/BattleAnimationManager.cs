@@ -36,10 +36,20 @@ public class BattleAnimationManager : MonoBehaviour
     [SerializeField] private GameObject _frame30;
     [SerializeField] private GameObject _frame31;
     [SerializeField] private GameObject _frame32;
+    [SerializeField] private GameObject _frame33;
+    public GameObject BUSH;
 
-    public void Update()
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) CallAnimation();
+        
+        RigedBush riged = BUSH.GetComponent<RigedBush>();
+
+        if(riged.isTriggerd == true)
+        {
+            CallAnimation();
+            riged.isTriggerd = false;
+        }
+
     }
 
     public void CallAnimation()
@@ -49,6 +59,24 @@ public class BattleAnimationManager : MonoBehaviour
 
     IEnumerator Animation()
     {
+        yield return new WaitForSeconds(.5f);
+
+        _frame33.SetActive(true);
+
+        yield return new WaitForSeconds(0.2f);
+
+        _frame33.SetActive(false);
+
+        yield return new WaitForSeconds(.1f);
+
+        _frame33.SetActive(true);
+
+        yield return new WaitForSeconds(0.2f);
+
+        _frame33.SetActive(false);
+
+        yield return new WaitForSeconds(0.1f);
+
         _frame1.SetActive(true);
 
         yield return new WaitForSeconds(0.03f);
